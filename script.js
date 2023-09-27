@@ -37,3 +37,19 @@ function findFractals(priceData) {
   
     return fractals;
   }
+
+  function areFractalsInRange(currentFractal, prevFractal1, prevFractal2) {
+    // Define a range based on the two previous fractals
+    const rangeLow = Math.min(prevFractal1.low, prevFractal2.low);
+    const rangeHigh = Math.max(prevFractal1.high, prevFractal2.high);
+  
+    // Check if the current fractal's high and low are within the range
+    if (
+      currentFractal.low >= rangeLow &&
+      currentFractal.high <= rangeHigh
+    ) {
+      return true; // The current fractal is within the range
+    }
+  
+    return false; // The current fractal is outside the range
+  }
