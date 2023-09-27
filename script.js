@@ -1,41 +1,54 @@
-function findFractals(priceData) {
-    const fractals = [];
+function findBearishFractals(priceData) {
+    const bearishFractals = [];
   
     for (let i = 2; i < priceData.length - 2; i++) {
-      const currentBar = priceData[i];
-      const previousBar = priceData[i - 1];
-      const nextBar = priceData[i + 1];
+      const currentHigh = priceData[i].high;
+      const previousHigh1 = priceData[i - 1].high;
+      const previousHigh2 = priceData[i - 2].high;
+      const nextHigh1 = priceData[i + 1].high;
+      const nextHigh2 = priceData[i + 2].high;
   
-      // Bullish Fractal
       if (
-        currentBar.high > previousBar.high &&
-        currentBar.high > nextBar.high &&
-        currentBar.low > previousBar.low &&
-        currentBar.low > nextBar.low
+        currentHigh > previousHigh2 &&
+        currentHigh > previousHigh1 &&
+        currentHigh > nextHigh1 &&
+        currentHigh > nextHigh2
       ) {
-        fractals.push({
-          type: "Bullish",
-          date: currentBar.date,
-          price: currentBar.high,
-        });
-      }
-  
-      // Bearish Fractal
-      if (
-        currentBar.high < previousBar.high &&
-        currentBar.high < nextBar.high &&
-        currentBar.low < previousBar.low &&
-        currentBar.low < nextBar.low
-      ) {
-        fractals.push({
-          type: "Bearish",
-          date: currentBar.date,
-          price: currentBar.low,
+        bearishFractals.push({
+          date: priceData[i].date,
+          high: currentHigh,
         });
       }
     }
   
-    return fractals;
+    return bearishFractals;
+  }
+  
+  // Function to identify bullish fractals
+  function findBullishFractals(priceData) {
+    const bullishFractals = [];
+  
+    for (let i = 2; i < priceData.length - 2; i++) {
+      const currentLow = priceData[i].low;
+      const previousLow1 = priceData[i - 1].low;
+      const previousLow2 = priceData[i - 2].low;
+      const nextLow1 = priceData[i + 1].low;
+      const nextLow2 = priceData[i + 2].low;
+  
+      if (
+        currentLow < previousLow2 &&
+        currentLow < previousLow1 &&
+        currentLow < nextLow1 &&
+        currentLow < nextLow2
+      ) {
+        bullishFractals.push({
+          date: priceData[i].date,
+          low: currentLow,
+        });
+      }
+    }
+  
+    return bullishFractals;
   }
 
   function areFractalsInRange(currentFractal, prevFractal1, prevFractal2) {
