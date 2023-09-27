@@ -2,38 +2,35 @@ function findFractals(priceData) {
     const fractals = [];
   
     for (let i = 2; i < priceData.length - 2; i++) {
-      const currentHigh = priceData[i].high;
-      const previousHigh = priceData[i - 1].high;
-      const nextHigh = priceData[i + 1].high;
-      const currentLow = priceData[i].low;
-      const previousLow = priceData[i - 1].low;
-      const nextLow = priceData[i + 1].low;
+      const currentBar = priceData[i];
+      const previousBar = priceData[i - 1];
+      const nextBar = priceData[i + 1];
   
       // Bullish Fractal
       if (
-        currentHigh > previousHigh &&
-        currentHigh > nextHigh &&
-        currentLow > previousLow &&
-        currentLow > nextLow
+        currentBar.high > previousBar.high &&
+        currentBar.high > nextBar.high &&
+        currentBar.low > previousBar.low &&
+        currentBar.low > nextBar.low
       ) {
         fractals.push({
           type: "Bullish",
-          date: priceData[i].date,
-          price: currentHigh,
+          date: currentBar.date,
+          price: currentBar.high,
         });
       }
   
       // Bearish Fractal
       if (
-        currentHigh < previousHigh &&
-        currentHigh < nextHigh &&
-        currentLow < previousLow &&
-        currentLow < nextLow
+        currentBar.high < previousBar.high &&
+        currentBar.high < nextBar.high &&
+        currentBar.low < previousBar.low &&
+        currentBar.low < nextBar.low
       ) {
         fractals.push({
           type: "Bearish",
-          date: priceData[i].date,
-          price: currentLow,
+          date: currentBar.date,
+          price: currentBar.low,
         });
       }
     }
